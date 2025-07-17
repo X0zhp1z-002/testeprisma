@@ -1,10 +1,9 @@
 import { PrismaClient } from '@prisma/client'
-import { NextRequest } from 'next/server'
 
 const prisma = new PrismaClient()
 
-export async function DELETE(req: NextRequest) {
-  const id = Number(req.nextUrl.pathname.split('/').pop())
+export async function DELETE(_: Request, { params }: { params: { id: string } }) {
+  const id = Number(params.id)
 
   try {
     await prisma.usuario.delete({ where: { id } })
@@ -14,9 +13,9 @@ export async function DELETE(req: NextRequest) {
   }
 }
 
-export async function PUT(req: NextRequest) {
-  const id = Number(req.nextUrl.pathname.split('/').pop())
-  const body = await req.json()
+export async function PUT(request: Request, { params }: { params: { id: string } }) {
+  const id = Number(params.id)
+  const body = await request.json()
   const { nome, email } = body
 
   try {
